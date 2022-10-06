@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState } from "react";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
+import { carouselItems } from "../exports";
 
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   position: relative;
+  overflow: hidden;
 `;
 
 const Arrow = styled.div`
@@ -28,10 +30,11 @@ const Arrow = styled.div`
   z-index: 2;
 `;
 
-
 const Wrapper = styled.div`
   height: 100%;
   display: flex;
+  transition: all 2.0s ease-in;
+  transform: translateX(${(props) => props.carouselIndex * -100}vw);
 `;
 
 const Slide = styled.div`
@@ -39,6 +42,7 @@ const Slide = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  background-color: ${(props) => props.bgc};
 `;
 const PhotoContainer = styled.div`
   flex: 1;
@@ -70,50 +74,38 @@ const Button = styled.button`
 `;
 
 const Carousel = () => {
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const handleClick = (position) => {
+    if (position === "left") {
+      setCarouselIndex(carouselIndex > 0 ? carouselIndex - 1 : 2)      
+    } else {
+      setCarouselIndex(carouselIndex < 2 ? carouselIndex + 1 : 0)
+    }
+
+  };
+  
+
   return (
     <Container>
-      <Arrow position="left">
+      <Arrow position="left" onClick={() => handleClick("left")}>
         <ArrowBack />
       </Arrow>
-      <Wrapper>
-        <Slide>
-          <PhotoContainer>
-            <Image src="https://i.ibb.co/DG69bQ4/2.png" />
-          </PhotoContainer>
-          <MsgContainer>
-            <Title>Bonanza Sale</Title>
-            <Description>
-              Take advantage of this promo and start shopping.
-            </Description>
-            <Button>Get Started</Button>
-          </MsgContainer>
-        </Slide>
-        <Slide>
-          <PhotoContainer>
-            <Image src="https://i.ibb.co/DG69bQ4/2.png" />
-          </PhotoContainer>
-          <MsgContainer>
-            <Title>Bonanza Sale</Title>
-            <Description>
-              Take advantage of this promo and start shopping.
-            </Description>
-            <Button>Get Started</Button>
-          </MsgContainer>
-        </Slide>
-        <Slide>
-          <PhotoContainer>
-            <Image src="https://i.ibb.co/DG69bQ4/2.png" />
-          </PhotoContainer>
-          <MsgContainer>
-            <Title>Bonanza Sale</Title>
-            <Description>
-              Take advantage of this promo and start shopping.
-            </Description>
-            <Button>Get Started</Button>
-          </MsgContainer>
-        </Slide>
+      <Wrapper carouselIndex={carouselIndex}>
+        {carouselItems.map((item) => (
+          <Slide bgc={item.bgc}>
+            <PhotoContainer>
+              <Image src={item.img} />
+            </PhotoContainer>
+            <MsgContainer>
+              <Title>{item.title}</Title>
+              <Description>{item.description}</Description>
+              <Button>Get Started</Button>
+            </MsgContainer>
+          </Slide>
+        ))}
+        ;
       </Wrapper>
-      <Arrow position="right">
+      <Arrow position="right" onClick={() => handleClick("right")}>
         <ArrowForward />
       </Arrow>
     </Container>
