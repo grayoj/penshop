@@ -1,9 +1,15 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
+import React from "react";
+import Carousel from "../components/Carousel";
+import Message from "../components/Message";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
-    <Navbar/>
+    <>
+      <Message />
+      <Navbar />
+      <Carousel />
+    </>
   );
 };
 

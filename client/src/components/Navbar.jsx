@@ -6,12 +6,12 @@ import { Search, ShoppingCartOutlined } from "@material-ui/icons/";
 
 
 const Container = styled.div`
-  height: 50px;
+  height: 90px;
   background-color: white;
 `;
 
 const Wrapper = styled.div`
-  padding: 10px 20px;
+  padding: 2px 20px;
   display: flex;
   justify-content: space-between;
 `;
