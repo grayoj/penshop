@@ -12,6 +12,9 @@ dotenv.config();
 const userRoute = require("./routes/user");
 // require routes for auth
 const authRoute = require("./routes/auth");
+const cartRoute = require("./routes/cartRoutes");
+const productRoute = require("./routes/productRoutes");
+const ordersRoute = require("./routes/ordersRoutes");
 
 // Instruct the ORM layer to connect to database instance WITH AN ENV
 mongoose
@@ -31,8 +34,14 @@ mongoose
 // use apiRoute
 app.use(express.json());
 app.use("/api/user", userRoute);
-// auth fir
+// route for auth
 app.use("/api/auth", authRoute);
+// auth for products
+app.use("/api/products", productRoute);
+// auth for cart
+app.use("/api/carts", cartRoute);
+// auth for orders
+app.use("/api/orders", ordersRoute);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log("Our Server is Up!");
