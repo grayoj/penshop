@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from "react";
 import styled from "styled-components";
 import Products from "../components/Products";
 import Footer from "../components/Footer";
 import Newsletter from "../components/Newsletter";
 import Message from "../components/Message";
 import Navbar from "../components/Navbar";
+import { useLocation } from "react-router";
 
 const Container = styled.div``;
 
@@ -34,18 +35,29 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductsPage = () => {
+  const location = useLocation();
+  const cat = location.pathname.split("/")[2];
+  const [filters, setFilters] = {};
+  const [sort, setSort] = useState("newest");
+
+  const handleFilters = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value,
+    });
+  };
+
   return (
     <Container>
       <Navbar />
       <Message />
-      <Title>Dresses</Title>
+      <Title>{cat}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
-          <Select>
-            <Option disabled selected>
-              Color
-            </Option>
+          <Select name="color" onChange={handleFilters}>
+            <Option disabled>Color</Option>
             <Option>Gray</Option>
             <Option>Black</Option>
             <Option>Pink</Option>
@@ -53,10 +65,8 @@ const ProductsPage = () => {
             <Option>Orange</Option>
             <Option>Brown</Option>
           </Select>
-          <Select>
-            <Option disabled selected>
-              Size
-            </Option>
+          <Select name="color" onChange={handleFilters}>
+            <Option disabled>Size</Option>
             <Option>XS</Option>
             <Option>S</Option>
             <Option>M</Option>
@@ -66,8 +76,8 @@ const ProductsPage = () => {
         </Filter>
         <Filter>
           <FilterText>Sort Products:</FilterText>
-          <Select>
-            <Option selected>Newest</Option>
+          <Select onChange={(e) => setSort(e.target.value)}>
+            <Option>Newest</Option>
             <Option>Price (asc)</Option>
             <Option>Price (desc)</Option>
           </Select>
@@ -77,7 +87,7 @@ const ProductsPage = () => {
       <Newsletter />
       <Footer />
     </Container>
-  )
-}
+  );
+};
 
 export default ProductsPage;
