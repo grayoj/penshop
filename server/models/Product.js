@@ -22,11 +22,15 @@ const ProductSchema = new mongoose.Schema(
       type: String,
     },
     color: {
-        type: String,
+      type: String,
     },
     price: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
+    },
+    inStock: {
+      type: Boolean,
+      required: true,
     },
   },
   { timestamps: true }

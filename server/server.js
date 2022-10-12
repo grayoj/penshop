@@ -15,6 +15,7 @@ const authRoute = require("./routes/auth");
 const cartRoute = require("./routes/cartRoutes");
 const productRoute = require("./routes/productRoutes");
 const ordersRoute = require("./routes/ordersRoutes");
+const cors = require("cors");
 
 // Instruct the ORM layer to connect to database instance WITH AN ENV
 mongoose
@@ -32,6 +33,7 @@ mongoose
 // })
 
 // use apiRoute
+app.use(cors());
 app.use(express.json());
 app.use("/api/user", userRoute);
 // route for auth
