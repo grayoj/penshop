@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
 
 // Sign Up
 // Sets up an asyncronous function to return a promise
@@ -10,7 +11,7 @@ router.post("/signup", async (req, res) => {
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
-      process.env.PASS_CODE
+      process.env.PASS_SEC
     ).toString(),
   });
 
@@ -32,7 +33,7 @@ router.post("/signin", async (req, res) => {
 
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
-      process.env.PASS_CODE
+      process.env.PASS_SEC
     );
     const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
 
@@ -45,13 +46,11 @@ router.post("/signin", async (req, res) => {
         id: user._id,
         isAdmin: user.isAdmin,
       },
-      process.enc.JWT_CODE,
-      { expiresIn: "4d" }
+      process.env.JWT_SEC,
+      { expiresIn: "1800s" }
     );
 
-    const { password, ...others } = user.doc;
-    //user;
-
+    const { password, ...others } = user._doc;
     res.status(200).json({ ...others, accessToken });
     // (others, accessToken)
   } catch (error) {
